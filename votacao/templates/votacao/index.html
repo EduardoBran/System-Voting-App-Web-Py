@@ -10,8 +10,8 @@
     <div class="card-body">
         <p class="lead">{{ question.question_text }}</p>
 
-        <a href="#" class="btn btn-primary btn-sm">Vote agora</a>
-        <a href="#" class="btn btn-secondary btn-sm">Resultados</a>
+        <a href="{% url 'votacao:detail' question.id %}" class="btn btn-primary btn-sm">Vote agora</a>
+        <a href="{% url 'votacao:results' question.id %}" class="btn btn-secondary btn-sm">Resultados</a>
     </div>
 </div>
 {% endfor %}
