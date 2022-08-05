@@ -23,6 +23,6 @@ def detail(request, question_id):
 
 
 def results(request, question_id):
-    question = Question.objects.get(pk=question_id)
+    question = get_object_or_404(Question, pk=question_id)
     context = {'question': question}
     return render(request, 'votacao/results.html', context)

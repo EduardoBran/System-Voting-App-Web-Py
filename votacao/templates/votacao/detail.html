@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a class="btn btn-secondary btn-sm mb-3" href="#">Back To Polls</a>
+<a class="btn btn-secondary btn-sm mb-3" href="{% url 'votacao:index' %}">Back To Polls</a>
 <h1 class="text-center mb-3">{{ question.question_text }}</h1>
 
 {% if error_message %}
