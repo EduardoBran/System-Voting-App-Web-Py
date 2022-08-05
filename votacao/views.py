@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -7,6 +8,11 @@ from .models import *
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')
+    
+    paginator = Paginator(latest_question_list, 4)
+    page = request.GET.get('page')
+    
+    latest_question_list = paginator.get_page(page)
     
     context = {'latest_question_list': latest_question_list}
     return render(request, 'votacao/index.html', context)
