@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 
 from .models import *
 
@@ -11,7 +12,11 @@ def index(request):
 
 
 def detail(request, question_id):
-    question = Question.objects.get(pk=question_id)
+    try:
+        question = Question.objects.get(pk=question_id)
+    except:
+        raise Http404("Question does not exist")
+    
     context = {'question': question}
     return render(request, 'votacao/detail.html', context)
 
