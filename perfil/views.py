@@ -24,3 +24,8 @@ def loginPage(request):
 def logoutPage(request):
     logout(request)
     return redirect('votacao:index')
+
+
+def registerPage(request):
+    context = {}
+    return render(request, 'perfil/register.html', context)
