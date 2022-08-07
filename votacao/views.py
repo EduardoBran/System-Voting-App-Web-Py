@@ -3,6 +3,7 @@ from django.forms import modelformset_factory
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views import View
 from django.views.generic import CreateView
 
 from .forms import *
@@ -58,7 +59,20 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('votacao:results', args=(question.id, )))    
 
 
-class PollsCreateView(CreateView):
+class DispatchLoginRequiredMixin(View):
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('perfil:login')
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(usuario=self.request.user)
+        return qs
+
+
+class PollsCreateView(DispatchLoginRequiredMixin, CreateView):
     form_class = PollsForm
     template_name = 'votacao/addPolls.html'
     
