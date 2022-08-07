@@ -1,28 +1,31 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
 <div class="mt-4">
-    <form method="post">
+    <form method="post" style="margin-right: 10px; margin-left: 10px;">
         {% csrf_token %}
         <div class="card">
-            <div class="card-header">
-                <h4>Create Poll</h4>
+            <div class="card-header" style="background-color: #F5F5F5">
+                <h4 class="text-center" style="margin-top: 3px;">Adicionar Enquete</h4>
             </div>
             <div class="card-body">
                 {{ form.non_form_errors }}
-                {{ form.as_p }}
-                <h5 class="text-info">Add Choice Metas</h5>
+                {{ form|crispy }}
+
+                <br>
+                <h5 class="text-info">Adicione pelo menos duas opções:</h5>
                 {{ choice_meta_formset.non_form_errors }}
                 {{ choice_meta_formset.management_form }}
                 {% for form in choice_meta_formset %}
-                <div class="d-flex py-1 inline {{ choice_meta_formset.prefix }}">
+                <div class="d-flex py-1 inline {{ choice_meta_formset.prefix }}" style="margin-top:5px;">
                     <div>{{form.choice_text.label}}: {{ form.choice_text }}</div>
                 </div>
                 {% endfor %}
             </div>
         </div>
-        <div class="mt-3 mb-5">
+        <div class="mt-4 mb-4">
             <button type="submit" class="px-5 btn btn-info">Submit</button>
         </div>
 
