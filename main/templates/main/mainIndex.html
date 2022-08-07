@@ -1,15 +1,44 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
-<div class="card text-center">
+<style>
+    .styleCard {
+        background-color: white;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 28px;
+        margin-bottom: 28px;
+        border-radius: 10px;
+        padding: 25px;
+    }
+
+    .h1Main {
+        margin-bottom: 15px;
+    }
+
+    .aMain {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="card text-center styleCard">
     <div class="card-body">
-        <h1>Welcome To Pollster</h1>
+        <h1 class="h1Main">Bem vindo ao PollMaker</h1>
 
-        <p>This is an example Django polling app</p>
+        <p>
+            Esta é uma aplicação web desenvolvida para a criação
+            de enquetes.
+        </p>
+        <p>
+            Para isso, basta efetuar seu cadastro gratuitamente e cadastrar
+            sua enquete.
+        </p>
+        <p>
+            Você também pode compartilhar o link da sua enquete com seus amigos.
+        </p>
 
-        <a class="btn btn-dark" href="{% url 'votacao:index' %}">
-            View Available Polls</a>
+        <a class="btn btn-dark aMain" href="{% url 'votacao:index' %}">
+            Veja aqui as enquetes disponíveis</a>
     </div>
 </div>
 
