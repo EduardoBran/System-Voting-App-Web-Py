@@ -14,6 +14,10 @@ def index(request):
     
     latest_question_list = paginator.get_page(page)
     
+    busca = request.GET.get('termo')
+    if busca:
+        latest_question_list = Question.objects.filter(question_text__icontains = busca)
+    
     context = {'latest_question_list': latest_question_list}
     return render(request, 'votacao/index.html', context)
 
