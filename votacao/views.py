@@ -1,8 +1,11 @@
 from django.core.paginator import Paginator
+from django.forms import modelformset_factory
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.generic import CreateView
 
+from .forms import *
 from .models import *
 
 
@@ -53,3 +56,47 @@ def vote(request, question_id):
         selected_choice.save()
         
         return HttpResponseRedirect(reverse('votacao:results', args=(question.id, )))    
+
+
+class PollsCreateView(CreateView):
+    form_class = PollsForm
+    template_name = 'votacao/addPolls.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(PollsCreateView, self).get_context_data(**kwargs)
+        
+        context['choice_meta_formset'] = ChoiceMetaInLineFormset()
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        # form_class = self.get_form_class()
+        form = self.get_form()
+        choice_meta_formset = ChoiceMetaInLineFormset(self.request.POST)
+        
+        if form.is_valid() and choice_meta_formset.is_valid():
+            self.form_valid(form, choice_meta_formset)
+            return redirect('votacao:index')
+        else:
+            return self.form_invalid(form, choice_meta_formset)
+    
+    def form_valid(self, form, choice_meta_formset):
+        self.object = form.save(commit=False)
+        self.object.save()
+        
+        #saving choice instances
+        choice_metas = choice_meta_formset.save(commit=False)
+        
+        for meta in choice_metas:
+            meta.question = self.object
+            meta.save()
+        
+        return redirect(reverse('votacao:addPolls'))
+    
+    def form_invalid(self, form, product_meta_formset):
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                product_meta_formset = product_meta_formset
+            )
+        )
