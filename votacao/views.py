@@ -92,25 +92,29 @@ class PollsCreateView(DispatchLoginRequiredMixin, CreateView):
             self.form_valid(form, choice_meta_formset)
             return redirect('votacao:index')
         else:
-            return self.form_invalid(form, choice_meta_formset)
+            return redirect('votacao:addPolls')
     
     def form_valid(self, form, choice_meta_formset):
+        choice_metas = choice_meta_formset.save(commit=False)
+        
+        if len(choice_metas) < 2:
+            print('Adicionar mensagem informando ao usuário que a enquete dele nao foi salva')
+            return
+            
         self.object = form.save(commit=False)
         self.object.save()
         
         #saving choice instances
-        choice_metas = choice_meta_formset.save(commit=False)
-        
         for meta in choice_metas:
             meta.question = self.object
             meta.save()
         
         return redirect(reverse('votacao:addPolls'))
     
-    def form_invalid(self, form, product_meta_formset):
+    def form_invalid(self, form, choice_meta_formset):
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                product_meta_formset = product_meta_formset
+                choice_meta_formset = choice_meta_formset
             )
         )
