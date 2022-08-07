@@ -1,25 +1,97 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
-<h1 class="text-center mb-3">Votações</h1>
-{% if latest_question_list %}
+<style>
+    .styleCard {
+        background-color: white;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 28px;
+        border-radius: 10px;
+        padding: 15px;
+    }
 
+    .bordaPolls {
+        border: 2px solid #DCDCDC;
+        border-radius: 10px;
+        margin: 10px;
+        margin-top: 15px;
+        background-color: white;
+    }
+
+    .h1Index {
+        font-family: Garamond;
+        font-size: 50px;
+        margin-top: 44px;
+    }
+
+    .btnVoteAgora {
+        border-color: #3498db;
+        color: #fff;
+        box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+        margin-right: 10px;
+    }
+
+    .btnVoteAgora:hover {
+        box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+    }
+
+    .btnResults {
+        border-color: #696969;
+        color: #fff;
+        box-shadow: 0 0 40px 40px #696969 inset, 0 0 0 0 #696969;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+    }
+
+    .btnResults:hover {
+        box-shadow: 0 0 10px 0 #696969 inset, 0 0 10px 4px #696969;
+    }
+</style>
+
+<div class="card text-center styleCard">
+    <div class="card-body">
+        <h3>Cadastre-se aqui para registrar novas enquetes</h3>
+
+        <p>
+            Clique no link abaixo para realizar seu cadastro.
+        </p>
+
+        <a class="btn btn-dark" href="{% url 'perfil:login' %}">
+            Cadastro
+        </a>
+    </div>
+</div>
+
+<h1 class="text-center mb-5 h1Index">Enquetes Cadastradas</h1>
+
+{% if latest_question_list %}
 {% for question in latest_question_list %}
 <div class="card-mb-3">
-    <div class="card-body">
+    <div class="card-body bordaPolls">
         <p class="lead">{{ question.question_text }}</p>
 
-        <a href="{% url 'votacao:detail' question.id %}" class="btn btn-primary btn-sm">Vote agora</a>
-        <a href="{% url 'votacao:results' question.id %}" class="btn btn-secondary btn-sm">Resultados</a>
+        <a href="{% url 'votacao:detail' question.id %}" class="btn btn-sm btnVoteAgora">
+            Vote Aqui
+        </a>
+        <a href="{% url 'votacao:results' question.id %}" class="btn btn-secondary btn-sm btnResults">
+            Resultados
+        </a>
     </div>
 </div>
 {% endfor %}
 
-{% include 'parciais/_pagination.html' %}
+<br>
+<div style=" margin-left: 10px; margin-bottom: 30px; margin-top: 20px;">
+    {% include 'parciais/_pagination.html' %}
+</div>
 
 {% else %}
-<p>Nenhuma enquete disponível.</p>
+
+<p>No polls available</p>
 
 {% endif %}
+
 {% endblock %}
