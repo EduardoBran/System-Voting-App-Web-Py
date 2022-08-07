@@ -1,23 +1,48 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
-<h1 class="mb-5 text-center">{{ question.question_text }}</h1>
+<style>
+    .styleResults {
+        border: 2px solid #C0C0C0;
+        padding: 40px;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: #F5F5F5;
+        border-radius: 10px;
+    }
 
-<ul class="list-group mb-5">
+    .btnVoltarEnquetes {
+        border-color: #696969;
+        color: #fff;
+        box-shadow: 0 0 40px 40px #696969 inset, 0 0 0 0 #696969;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+    }
 
-    {% for choice in question.choice_set.all %}
-    <li class="list-group-item">
-        {{ choice.choice_text }}
-        <span class="badge badge-success float-right">
-            {{ choice.votes }} vote{{ choice.votes | pluralize }}
-        </span>
-    </li>
-    {% endfor %}
+    .btnVoltarEnquetes:hover {
+        box-shadow: 0 0 10px 0 #696969 inset, 0 0 10px 4px #696969;
+    }
+</style>
 
-</ul>
+<div class="styleResults">
+    <h1 class="mb-5 text-center">{{ question.question_text }}</h1>
 
-<a class="btn btn-secondary" href="{% url 'votacao:index' %}">Back To Polls</a>
-<a class="btn btn-dark" href="{% url 'votacao:detail' question.id %}">Vote again?</a>
+    <ul class="list-group mb-5">
+        {% for choice in question.choice_set.all %}
+        <li class="list-group-item">
+            {{ choice.choice_text }}
+            <span class="badge badge-success float-right">
+                {{ choice.votes }} vote{{ choice.votes | pluralize }}
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <a class="btn btn-secondary btnVoltarEnquetes" href="{% url 'votacao:index' %}">Voltar</a>
+</div>
 
 {% endblock %}
