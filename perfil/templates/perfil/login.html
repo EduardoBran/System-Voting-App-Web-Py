@@ -1,17 +1,41 @@
 {% extends 'base.html' %}
 
-{% load static %}
-
 {% block content %}
 
-<div class="container jumbotron">
+<style>
+    .formLogin {
+        border: 2px solid #C0C0C0;
+        padding: 40px;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        background-color: #F5F5F5;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="login-form formLogin">
+    <h2 class="text-center" style="padding-bottom: 20px;">Log in</h2>
     <form method="POST" action="">
         {% csrf_token %}
-        <p><input type="text" name="username" placeholder="Username..."></p>
-        <p><input type="password" name="password" placeholder="Password..."></p>
-        <input class="btn btn-success" type="submit" value="Login">
-        <p>Do not have an account<a href="{% url 'perfil:register' %}">Register</a></p>
+
+        <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="Username...">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" style="margin-top: 20px; margin-bottom: 20px;" name="password"
+                placeholder="Password...">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark btn-block" value="Login">Log in</button>
+        </div>
+
+        <div class="clearfix" style="margin-bottom: 30px;">
+            <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>
+        </div>
     </form>
+    <p class="text-center"><a href="{% url 'perfil:register' %}">Criar um novo usuário</a></p>
 </div>
 
 {% endblock %}

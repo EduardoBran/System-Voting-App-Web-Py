@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 
-<div class="container jumotron">
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{form.as_p}}
+<style>
+    .formLogin {
+        border: 2px solid #C0C0C0;
+        padding: 40px;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        background-color: #F5F5F5;
+        border-radius: 10px;
+    }
+</style>
 
-        <input class="btn btn-success" type="submit" value="Registrar Conta">
-    </form>
-</div>
+<form method="POST" action="" class="formLogin">
+    {% csrf_token %}
+    {{form.as_p}}
 
-{% endblock %}}
+    <input class="btn btn-dark btn-block" type="submit" value="Registrar Conta">
+</form>
+
+{% endblock %}
