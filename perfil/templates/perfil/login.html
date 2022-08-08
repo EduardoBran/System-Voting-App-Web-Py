@@ -8,12 +8,26 @@
         padding: 40px;
         margin-right: 10px;
         margin-left: 10px;
-        margin-top: 60px;
-        margin-bottom: 60px;
+        margin-top: 30px;
+        margin-bottom: 30px;
         background-color: #F5F5F5;
         border-radius: 10px;
     }
+
+    .btnVoltarEnquetes {
+        border-color: #696969;
+        color: #fff;
+        box-shadow: 0 0 40px 40px #696969 inset, 0 0 0 0 #696969;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+    }
+
+    .btnVoltarEnquetes:hover {
+        box-shadow: 0 0 10px 0 #696969 inset, 0 0 10px 4px #696969;
+    }
 </style>
+
+{% include 'parciais/_messages.html' %}
 
 <div class="login-form formLogin">
     <h2 class="text-center" style="padding-bottom: 20px;">Log in</h2>
@@ -36,6 +50,10 @@
         </div>
     </form>
     <p class="text-center"><a href="{% url 'perfil:register' %}">Criar um novo usuário</a></p>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <a class="btn btn-secondary btnVoltarEnquetes" href="{% url 'votacao:index' %}">Voltar</a>
 </div>
 
 {% endblock %}

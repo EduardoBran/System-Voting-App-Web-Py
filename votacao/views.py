@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.forms import modelformset_factory
 from django.http import Http404, HttpResponseRedirect
@@ -20,8 +21,13 @@ def index(request):
     
     busca = request.GET.get('termo')
     if busca:
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Busca realizada com sucesso.'
+        )
         latest_question_list = Question.objects.filter(question_text__icontains = busca)
-    
+        
     context = {'latest_question_list': latest_question_list}
     return render(request, 'votacao/index.html', context)
 
@@ -53,6 +59,12 @@ def vote(request, question_id):
         return render(request, 'votacao/detail.html', {'question': question, 'error_message': "Você não selecionou nenhuma opção.",})
     
     else:
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Voto computado com sucesso.'
+        )
+        
         selected_choice.votes += 1
         selected_choice.save()
         
