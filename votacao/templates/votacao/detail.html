@@ -48,10 +48,26 @@
         {% endfor %}
         <input type="submit" value="Votar" class="btn btn-success btn-lg btn-block mt-4" />
     </form>
+
+    <div class="text-center" style="margin-top: 30px; margin-right: 50px; margin-left: 50px;">
+        <input class="form-control" type="text" , name="link" , id="link" , value="{{ request.build_absolute_uri }}"
+            readonly />
+        <button class="btn-sm btn-dark" onclick="copiarLink()" style="margin-top: 15px;">Copiar link</button>
+    </div>
 </div>
 
 <div style="margin-bottom: 20px;">
     <a class="btn btn-secondary btnVoltarEnquetes" href="{% url 'votacao:index' %}">Voltar</a>
 </div>
 
+<script>
+    function copiarLink() {
+        let linkCopiado = document.getElementById("link");
+        linkCopiado.select();
+        linkCopiado.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert('Link copiado com sucesso.\nO link é: ' + linkCopiado.value);
+
+    }
+</script>
 {% endblock %}
