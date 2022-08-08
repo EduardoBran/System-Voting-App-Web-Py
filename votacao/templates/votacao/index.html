@@ -50,10 +50,26 @@
         box-shadow: 0 0 10px 0 #696969 inset, 0 0 10px 4px #696969;
     }
 </style>
+{% if request.user.is_authenticated %}
 
 <div class="card text-center styleCard">
     <div class="card-body">
-        <h3>Cadastre-se aqui para registrar novas enquetes</h3>
+        <h3>Olá <strong>{{ request.user }}</strong>, agora você pode adicionar novas enquetes</h3>
+
+        <p>
+            Clique no link abaixo para cadastrar sua enquete.
+        </p>
+
+        <a class="btn btn-dark" href="{% url 'votacao:addPolls' %}">
+            Adicionar
+        </a>
+    </div>
+</div>
+
+{% else %}
+<div class="card text-center styleCard">
+    <div class="card-body">
+        <h3>Cadastre-se aqui para adicionar novas enquetes</h3>
 
         <p>
             Clique no link abaixo para realizar seu cadastro.
@@ -64,6 +80,7 @@
         </a>
     </div>
 </div>
+{% endif %}
 
 <h1 class="text-center mb-5 h1Index">Enquetes Cadastradas</h1>
 
