@@ -6,7 +6,7 @@ from .models import *
 class PollsForm(ModelForm):
     class Meta:
         model = Question
-        fields = ['question_text', 'pub_date']
+        fields = ['question_text']
 
 class ChoiceMetaForm(ModelForm):
     class Meta:

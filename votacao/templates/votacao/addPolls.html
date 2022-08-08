@@ -3,6 +3,8 @@
 
 {% block content %}
 
+{% include 'parciais/_messages.html' %}
+
 <div class="mt-4">
     <form method="post" style="margin-right: 10px; margin-left: 10px;">
         {% csrf_token %}

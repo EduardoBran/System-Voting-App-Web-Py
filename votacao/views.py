@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView
+from perfil.views import loginPage
 
 from .forms import *
 from .models import *
@@ -36,7 +37,7 @@ def detail(request, question_id):
     try:
         question = Question.objects.get(pk=question_id)
     except:
-        raise Http404("Question does not exist")
+        raise Http404("Enquete não existe.")
     
     context = {'question': question}
     return render(request, 'votacao/detail.html', context)
@@ -74,6 +75,7 @@ def vote(request, question_id):
 class DispatchLoginRequiredMixin(View):
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
+            messages.warning(self.request, 'Você só pode adicionar enquete depois de fazer o login.')
             return redirect('perfil:login')
 
         return super().dispatch(*args, **kwargs)
@@ -102,17 +104,15 @@ class PollsCreateView(DispatchLoginRequiredMixin, CreateView):
         
         if form.is_valid() and choice_meta_formset.is_valid():
             self.form_valid(form, choice_meta_formset)
-            return redirect('votacao:index')
-        else:
             return redirect('votacao:addPolls')
     
     def form_valid(self, form, choice_meta_formset):
         choice_metas = choice_meta_formset.save(commit=False)
         
         if len(choice_metas) < 2:
-            print('Adicionar mensagem informando ao usuário que a enquete dele nao foi salva')
+            messages.error(self.request, 'Enquete NÃO adicionada. Você precisa adicionar pelo menos 2 opções.')
             return
-            
+                    
         self.object = form.save(commit=False)
         self.object.save()
         
@@ -121,7 +121,7 @@ class PollsCreateView(DispatchLoginRequiredMixin, CreateView):
             meta.question = self.object
             meta.save()
         
-        return redirect(reverse('votacao:addPolls'))
+        messages.success(self.request, f'Enquete adicionada com sucesso. Clique em "Voltar" para visualizar ou adicione outra enquete.')
     
     def form_invalid(self, form, choice_meta_formset):
         return self.render_to_response(
