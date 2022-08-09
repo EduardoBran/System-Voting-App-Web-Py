@@ -74,14 +74,18 @@
 {% else %}
 <div class="card text-center styleCard">
     <div class="card-body">
-        <h3>Cadastre-se aqui para adicionar novas enquetes</h3>
+        <h3>Cadastre-se para adicionar novas enquetes</h3>
 
         <p>
-            Clique no link abaixo para realizar seu cadastro.
+            Se você já é cadastrado, clique no botão login.
         </p>
 
-        <a class="btn btn-dark" href="{% url 'perfil:login' %}">
-            Cadastro
+        <a class="btn btn-dark" href="{% url 'perfil:register' %}" style="width: 98px; margin-right: 5px;">
+            Cadastrar
+        </a>
+
+        <a class="btn btn-dark" href="{% url 'perfil:login' %}" style="width: 98px;">
+            Login
         </a>
     </div>
 </div>
